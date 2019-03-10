@@ -6,6 +6,8 @@
 #include <vector>
 #include <iostream>
 
+#include <Eigen/Dense>
+
 // create some vector objects
 template<size_t DIM, typename T> 
 class Vec {
@@ -52,5 +54,7 @@ class Vec<2,T> {
     private:
         T x,y;
 };
+
+// typedefs for useful objects
 
 #endif
