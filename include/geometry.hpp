@@ -15,16 +15,11 @@ class Vec {
     public:
 
         Vec( void );
-   
-        T& operator [] (const size_t ii) {
-            assert(ii < DIM);
-            return _data[ii];
-        };
+        virtual ~Vec( void ) {} ;
 
-        const T& operator [] (const size_t ii) const {
-            assert(ii < DIM);
-            return _data[ii];
-        }
+        T& operator [] (const size_t ii);
+
+        const T& operator [] (const size_t ii) const;
 
     private:
         T _data[DIM];
