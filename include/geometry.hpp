@@ -143,4 +143,23 @@ std::ostream& operator<<(std::ostream& out, const Vec<DIM,T>& v) {
     for(unsigned int i=0; i<DIM; i++) out << v[i] << " " ;
     return out ;
 }
+
+
+// sphere class
+class Sphere {
+    private:
+        Vec3f center;
+        float radius;
+
+    public:
+        
+        Sphere( void );
+        Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in);
+        Sphere(const Vec3f& center_in, const float& radius_in);
+
+        virtual ~Sphere( void );
+
+        bool ray_intersect();
+};
+
 #endif
