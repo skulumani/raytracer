@@ -8,8 +8,8 @@
 
 void render( void ) {
     // size of image
-    const int width    = 6;
-    const int height   = 5;
+    const int width    = 1024;
+    const int height   = 768;
     
     // data for the image RGB 
     std::vector<Vec3f> framebuffer(width*height);
@@ -31,13 +31,13 @@ void render( void ) {
 
     stbi_write_jpg("out.jpg",width, height, 3, image, 95);
 
-    std::ofstream ofs; // save the framebuffer to file
-    ofs.open("./out.ppm");
-    ofs << "P6\n" << width << " " << height << "\n255\n";
-    for (size_t i = 0; i < height*width; ++i) {
-        for (size_t j = 0; j<3; j++) {
-            ofs << (char)(255 * std::max(0.f, std::min(1.f, framebuffer[i][j])));
-        }
-    }
-    ofs.close();
+    /* std::ofstream ofs; // save the framebuffer to file */
+    /* ofs.open("./out.ppm"); */
+    /* ofs << "P6\n" << width << " " << height << "\n255\n"; */
+    /* for (size_t i = 0; i < height*width; ++i) { */
+    /*     for (size_t j = 0; j<3; j++) { */
+    /*         ofs << (char)(255 * std::max(0.f, std::min(1.f, framebuffer[i][j]))); */
+    /*     } */
+    /* } */
+    /* ofs.close(); */
 }
