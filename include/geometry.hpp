@@ -54,7 +54,7 @@ class Vec<2,T> {
         }
 
     private:
-        T x,y;
+        T x, y;
 };
 
 template <typename T> 
