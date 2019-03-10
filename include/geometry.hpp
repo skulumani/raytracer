@@ -36,6 +36,7 @@ template <typename T>
 class Vec<2,T> {
     public:
         Vec( void ) : x(T()), y(T()) {}
+        /* Vec( void ); */
         Vec(T X, T Y) : x(X), y(Y) {}
     
         virtual ~Vec( void ) {}
