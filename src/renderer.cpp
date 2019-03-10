@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -22,7 +22,7 @@ void render( void ) {
     
     // save to file (need to loop through framebuffer and convert it to another 
     // data array type for STB
-    uint8_t image[width * height * 3];
+    std::uint8_t image[width * height * 3];
     for (size_t ii = 0; ii < width * height; ii++) {
         image[ii * 3 + 0] = (int)(255 * framebuffer[ii][0]);
         image[ii * 3 + 1] = (int)(255 * framebuffer[ii][1]);

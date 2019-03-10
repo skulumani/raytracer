@@ -60,7 +60,8 @@ ENABLE_TESTING()
 
 set(test_all_src 
     tests/test_all.cpp
-    tests/test_gtest.cpp)
+    tests/test_gtest.cpp
+    tests/test_stb.cpp)
 
 add_executable(test_all ${test_all_src})
 target_link_libraries(test_all gtest )
