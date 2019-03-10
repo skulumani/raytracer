@@ -38,11 +38,19 @@ ENABLE_TESTING()
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 ################################################################################
+# STB Dependencies
+################################################################################
+include_directories(
+    $(PROJECT_SOURCE_DIR)/extern/stb)
+
+################################################################################
 # BUILD TARGETS
 ################################################################################
 include_directories(${PROJECT_SOURCE_DIR}/include)
 add_executable(main 
     src/main.cpp 
+    src/geometry.cpp
+    src/renderer.cpp
 )
 # target_link_libraries(main
 ################################################################################
