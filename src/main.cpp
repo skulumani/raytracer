@@ -1,12 +1,13 @@
 #include <iostream>
+
+#include <Eigen/Dense>
+
 #include "geometry.hpp"
 
 int main() {
     
-
-    typedef Vec<2, float> Vec2f;
-
-    Vec2f a(1.0, 2.0);
-    std::cout << a[1] << std::endl;
+    Eigen::Matrix<double, 1, 2> a;
+    a << 1, 2;
+    std::cout << a(1) << std::endl;
     return 0;
 }

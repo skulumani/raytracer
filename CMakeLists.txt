@@ -22,6 +22,14 @@ set(ENV{OMP_NUM_THREADS} 4)
 set(ENV{OMP_NESTED} TRUE)
 find_package(OpenMP REQUIRED)
 
+# Eigen setup
+find_package(Eigen3 REQUIRED)
+if (NOT Eigen3_FOUND)
+message(STATUS "This project requires Eigen3 and will not be compiled.")
+return()
+endif()
+include(${EIGEN3_USE_FILE})
+
 ################################################################################
 # GOOGLE TESTING
 ################################################################################
