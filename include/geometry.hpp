@@ -15,7 +15,7 @@ class Vec {
     public:
 
         Vec( void );
-        virtual ~Vec( void ) {} ;
+        virtual ~Vec( void ) {}
 
         T& operator [] (const size_t ii);
 
@@ -37,9 +37,11 @@ class Vec<2,T> {
     public:
         Vec( void ) : x(T()), y(T()) {}
         Vec(T X, T Y) : x(X), y(Y) {}
+    
+        virtual ~Vec( void ) {}
 
         template <class U> 
-            Vec<2,T>(const Vec<2,U> &v);
+        Vec<2,T>(const Vec<2,U> &v);
 
         T& operator[](const size_t i) {
             assert(i<2); 
