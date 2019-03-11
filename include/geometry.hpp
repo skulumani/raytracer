@@ -157,9 +157,10 @@ class Sphere {
         Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in);
         Sphere(const Vec3f& center_in, const float& radius_in);
 
-        virtual ~Sphere( void );
+        virtual ~Sphere( void ) {};
 
         bool ray_intersect();
 };
+
 
 #endif

@@ -33,3 +33,23 @@ const T& Vec<DIM, T>::operator [] (const size_t ii) const {
 
 /* template <> class Vec<2, int>; */
 
+
+// Sphere class
+Sphere::Sphere( void ) {
+    std::cout << "Sphere constructor" << std::endl;
+    /* center = Vec3f(0.0, 0.0, 0.0); */
+    /* radius = 1.0; */
+}
+
+Sphere::Sphere(const float & xc_in, const float& yc_in, const float& zc_in, const float& r_in) {
+    std::cout << "Sphere parameterized constructor" << std::endl;
+}
+
+Sphere::Sphere(const Vec3f& center_in, const float& radius_in) {
+    std::cout << "Sphere" << std::endl;
+}
+
+bool Sphere::ray_intersect() {
+    return true;
+}
+
