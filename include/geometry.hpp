@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 
-/* #include <Eigen/Dense> */
+#include <Eigen/Dense>
 
 // create some vector objects
 template<size_t DIM, typename T> 
@@ -156,22 +156,22 @@ std::ostream& operator<<(std::ostream& out, const Vec<DIM,T>& v) {
 // sphere class
 class Sphere {
     private:
-        Vec3f center;
+        Eigen::Vector3f center;
         float radius;
 
     public:
         
         Sphere( void );
         Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in);
-        Sphere(const Vec3f& center_in, const float& radius_in);
+        Sphere(const Eigen::Vector3f& center_in, const float& radius_in);
 
         virtual ~Sphere( void ) {};
 
-        bool ray_intersect(const Vec3f& origin,
-                           const Vec3f& view_direction,
+        bool ray_intersect(const Eigen::Vector3f& origin,
+                           const Eigen::Vector3f& view_direction,
                            float& t0) const;
 };
 
-Vec3f cast_ray(const Vec3f &orig, const Vec3f& dir, const Sphere& sphere);
+Eigen::Vector3f cast_ray(const Eigen::Vector3f &orig, const Eigen::Vector3f& dir, const Sphere& sphere);
 
 #endif

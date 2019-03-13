@@ -41,21 +41,21 @@ Sphere::Sphere( void ) {
 }
 
 Sphere::Sphere(const float & xc_in, const float& yc_in, const float& zc_in, const float& r_in) {
-    center = Vec3f(xc_in, yc_in, zc_in);
+    center << xc_in, yc_in, zc_in;
     radius = r_in;
 }
 
-Sphere::Sphere(const Vec3f& center_in, const float& radius_in) {
+Sphere::Sphere(const Eigen::Vector3f& center_in, const float& radius_in) {
     center = center_in;
     radius = radius_in;
 }
 
-bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, float& t0) const {
+bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& view_direction, float& t0) const {
     // Look here : https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
     // or here: https://github.com/ssloy/tinyraytracer/commit/5806eb45e93dab225ab335824cbc3f537d511b28
     // TODO Derive and rewrite this ray and sphere intersect function
     // vector from origin to center of sphere
-    Vec3f origin_to_center = this->center - origin;
+    Eigen::Vector3f origin_to_center = this->center - origin;
     
     /* // check dot product of origin2center and view_direction */
     /* float dot_product = origin_to_center * view_direction; */
@@ -75,8 +75,8 @@ bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, flo
 
     /* } */
     // dot product of vector to center and view direction
-    float tca = origin_to_center*view_direction;
-    float d2 = origin_to_center*origin_to_center - tca*tca;
+    float tca = origin_to_center.dot(view_direction);
+    float d2 = origin_to_center.dot(origin_to_center) - tca*tca;
     if (d2 > radius*radius) return false;
 
     float thc = sqrtf(radius*radius - d2);
@@ -88,11 +88,11 @@ bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, flo
     return true;
 }
 
-Vec3f cast_ray(const Vec3f &orig, const Vec3f &dir, const Sphere &sphere) {
+Eigen::Vector3f cast_ray(const Eigen::Vector3f &orig, const Eigen::Vector3f &dir, const Sphere &sphere) {
     float sphere_dist = std::numeric_limits<float>::max();
     // cast ray from origin to infinity
     if (!sphere.ray_intersect(orig, dir, sphere_dist)) {
-        return Vec3f(0.2, 0.7, 0.8); // background color
+        return Eigen::Vector3f 0.7, 0.8); // background color
     }
-    return Vec3f(0.4, 0.4, 0.3); // color of sphere
+    return Eigen::Vector3f 0.4, 0.3); // color of sphere
 }
