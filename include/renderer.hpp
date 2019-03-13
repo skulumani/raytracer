@@ -9,6 +9,6 @@
 
 #include "geometry.hpp"
 
-void render( void );
+void render( const Sphere& sphere );
 
 #endif

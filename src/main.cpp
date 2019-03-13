@@ -2,10 +2,12 @@
 #include "geometry.hpp"
 
 int main() {
-    render(); 
 
     Vec<2, int> vector(1, 2);
     
-    Sphere sphere;
+    Vec3f center(0, 0, 10);
+    float radius(1);
+    Sphere sphere(center, radius);
+    render(sphere); 
     return 0;
 }

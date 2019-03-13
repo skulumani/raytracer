@@ -121,11 +121,18 @@ Vec<DIM,T> operator-(Vec<DIM,T> lhs, const Vec<DIM,T>& rhs) {
     return lhs;
 }
 
-// dot product
+// vector * constant
 template<size_t DIM,typename T,typename U> 
 Vec<DIM,T> operator*(const Vec<DIM,T> &lhs, const U& rhs) {
     Vec<DIM,T> ret;
     for (size_t i=DIM; i--; ret[i]=lhs[i]*rhs);
+    return ret;
+}
+
+template<size_t DIM, typename T, typename U>
+Vec<DIM, T> operator*(const U& lhs, const Vec<DIM, T>& rhs) {
+    Vec<DIM, T> ret;
+    for (size_t ii=DIM; ii--; ret[ii]=lhs * rhs[ii]);
     return ret;
 }
 
