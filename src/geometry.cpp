@@ -36,7 +36,7 @@ const T& Vec<DIM, T>::operator [] (const size_t ii) const {
 
 // Sphere class
 Sphere::Sphere( void ) {
-    center = Vec3f(0.0, 0.0, 0.0);
+    center << 0.0, 0.0, 0.0;
     radius = 1.0;
 }
 
@@ -92,7 +92,7 @@ Eigen::Vector3f cast_ray(const Eigen::Vector3f &orig, const Eigen::Vector3f &dir
     float sphere_dist = std::numeric_limits<float>::max();
     // cast ray from origin to infinity
     if (!sphere.ray_intersect(orig, dir, sphere_dist)) {
-        return Eigen::Vector3f 0.7, 0.8); // background color
+        return (Eigen::Vector3f() << 0.2, 0.7, 0.8).finished(); // background color
     }
-    return Eigen::Vector3f 0.4, 0.3); // color of sphere
+    return (Eigen::Vector3f() << 0.4,0.4, 0.3).finished(); // color of sphere
 }

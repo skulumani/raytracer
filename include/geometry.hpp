@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include <Eigen/Dense>
+#include <Eigen/StdVector>
 
 // create some vector objects
 template<size_t DIM, typename T> 
