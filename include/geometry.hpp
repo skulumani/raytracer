@@ -160,8 +160,11 @@ class Sphere {
 
         virtual ~Sphere( void ) {};
 
-        bool ray_intersect();
+        bool ray_intersect(const Vec3f& origin,
+                           const Vec3f& view_direction,
+                           float& t0) const;
 };
 
+Vec3f cast_ray(const Vec3f &orig, const Vec3f& dir, const Sphere& sphere);
 
 #endif

@@ -50,7 +50,10 @@ Sphere::Sphere(const Vec3f& center_in, const float& radius_in) {
     radius = radius_in;
 }
 
-bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, float& t0) {
+bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, float& t0) const {
+    // Look here : https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+    // or here: https://github.com/ssloy/tinyraytracer/commit/5806eb45e93dab225ab335824cbc3f537d511b28
+    //
     // vector from origin to center of sphere
     Vec3f origin_to_center = this->center - origin;
     
@@ -85,3 +88,11 @@ bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, flo
     return true;
 }
 
+Vec3f cast_ray(const Vec3f &orig, const Vec3f &dir, const Sphere &sphere) {
+    float sphere_dist = std::numeric_limits<float>::max();
+    // cast ray from origin to infinity
+    if (!sphere.ray_intersect(orig, dir, sphere_dist)) {
+        return Vec3f(0.2, 0.7, 0.8); // background color
+    }
+    return Vec3f(0.4, 0.4, 0.3); // color of sphere
+}
