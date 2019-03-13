@@ -50,7 +50,38 @@ Sphere::Sphere(const Vec3f& center_in, const float& radius_in) {
     radius = radius_in;
 }
 
-bool Sphere::ray_intersect() {
+bool Sphere::ray_intersect(const Vec3f& origin, const Vec3f& view_direction, float& t0) {
+    // vector from origin to center of sphere
+    Vec3f origin_to_center = this->center - origin;
+    
+    /* // check dot product of origin2center and view_direction */
+    /* float dot_product = origin_to_center * view_direction; */
+
+    /* if (dot_product < 0) { */
+    /*     // view direction is away from the sphere */
+    /*     float dist_origin_to_center = origin_to_center.norm(); */
+    /*     if ( dist_origin_to_center > radius) { */
+    /*         return false; */
+    /*     } else if ( dist_origin_to_center == radius) { */
+    /*         return true; */
+    /*     } else { */
+    /*        // origin is inside the sphere */
+
+    /*     } */
+    /* } else { */
+
+    /* } */
+    // dot product of vector to center and view direction
+    float tca = origin_to_center*view_direction;
+    float d2 = origin_to_center*origin_to_center - tca*tca;
+    if (d2 > radius*radius) return false;
+
+    float thc = sqrtf(radius*radius - d2);
+    t0       = tca - thc;
+    float t1 = tca + thc;
+    if (t0 < 0) t0 = t1;
+    if (t0 < 0) return false;
+
     return true;
 }
 

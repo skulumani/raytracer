@@ -121,6 +121,7 @@ Vec<DIM,T> operator-(Vec<DIM,T> lhs, const Vec<DIM,T>& rhs) {
     return lhs;
 }
 
+// dot product
 template<size_t DIM,typename T,typename U> 
 Vec<DIM,T> operator*(const Vec<DIM,T> &lhs, const U& rhs) {
     Vec<DIM,T> ret;
