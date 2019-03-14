@@ -40,12 +40,14 @@ Sphere::Sphere( void ) {
     radius = 1.0;
 }
 
-Sphere::Sphere(const float & xc_in, const float& yc_in, const float& zc_in, const float& r_in) {
+Sphere::Sphere(const float& xc_in, const float& yc_in,
+        const float& zc_in, const float& r_in) {
     center << xc_in, yc_in, zc_in;
     radius = r_in;
 }
 
-Sphere::Sphere(const Eigen::Vector3f& center_in, const float& radius_in) {
+Sphere::Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in,
+        const float& radius_in) {
     center = center_in;
     radius = radius_in;
 }
@@ -88,7 +90,8 @@ bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f&
     return true;
 }
 
-Eigen::Vector3f cast_ray(const Eigen::Vector3f &orig, const Eigen::Vector3f &dir, const Sphere &sphere) {
+Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig, 
+        const Eigen::Ref<const Eigen::Vector3f>& dir, const Sphere &sphere) {
     float sphere_dist = std::numeric_limits<float>::max();
     // cast ray from origin to infinity
     if (!sphere.ray_intersect(orig, dir, sphere_dist)) {

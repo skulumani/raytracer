@@ -164,7 +164,7 @@ class Sphere {
         
         Sphere( void );
         Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in);
-        Sphere(const Eigen::Vector3f& center_in, const float& radius_in);
+        Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, const float& radius_in);
 
         virtual ~Sphere( void ) {};
 
@@ -173,6 +173,8 @@ class Sphere {
                            float& t0) const;
 };
 
-Eigen::Vector3f cast_ray(const Eigen::Vector3f &orig, const Eigen::Vector3f& dir, const Sphere& sphere);
+Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
+        const Eigen::Ref<const Eigen::Vector3f>& dir,
+        const Sphere& sphere);
 
 #endif
