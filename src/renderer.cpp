@@ -34,8 +34,8 @@ void render(const Sphere& sphere) {
             // define view direction
             Eigen::Vector3f ray_vec = cam_axis + ((ii+0.5) - width/2) * right_axis + ((jj+0.5) - height/2) * up_axis;
 
-            framebuffer[ii+jj*width] = (Eigen::Vector3f() << jj/float(height),ii/float(width), 0).finished();
-            /* framebuffer[ii+jj*width] = cast_ray(origin, ray_vec.normalize(), sphere); */
+            /* framebuffer[ii+jj*width] = (Eigen::Vector3f() << jj/float(height),ii/float(width), 0).finished(); */
+            framebuffer[ii+jj*width] = cast_ray(origin, ray_vec.normalized(), sphere);
 
         }
     }
