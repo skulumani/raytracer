@@ -33,6 +33,18 @@ const T& Vec<DIM, T>::operator [] (const size_t ii) const {
 
 /* template <> class Vec<2, int>; */
 
+// Material class
+Material::Material( void ) {
+    diffuse_color = Eigen::Vector3f::Random().cwiseAbs();
+}
+
+Material::Material(const Eigen::Ref<const Eigen::Vector3f>& color) {
+    diffuse_color = color;
+}
+
+Eigen::Vector3f Material::get_diffuse( void ) {
+    return this->diffuse_color;
+}
 
 // Sphere class
 Sphere::Sphere( void ) {
@@ -50,6 +62,10 @@ Sphere::Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in,
         const float& radius_in) {
     center = center_in;
     radius = radius_in;
+}
+
+Material Sphere::get_material( void ) const {
+    return this->material;
 }
 
 bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& view_direction, float& t0) const {
@@ -97,5 +113,5 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     if (!sphere.ray_intersect(orig, dir, sphere_dist)) {
         return (Eigen::Vector3f() << 0.2, 0.7, 0.8).finished(); // background color
     }
-    return (Eigen::Vector3f() << 0.4,0.4, 0.3).finished(); // color of sphere
+    return sphere.get_material().get_diffuse(); // color of sphere
 }

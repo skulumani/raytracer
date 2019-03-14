@@ -153,12 +153,23 @@ std::ostream& operator<<(std::ostream& out, const Vec<DIM,T>& v) {
     return out ;
 }
 
+struct Material {
+    private:
+        Eigen::Vector3f diffuse_color;
+
+    public:
+        Material( void );
+        Material( const Eigen::Ref<const Eigen::Vector3f>& color);
+        
+        Eigen::Vector3f get_diffuse( void );
+};
 
 // sphere class
 class Sphere {
     private:
         Eigen::Vector3f center;
         float radius;
+        Material material;
 
     public:
         
@@ -167,6 +178,8 @@ class Sphere {
         Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, const float& radius_in);
 
         virtual ~Sphere( void ) {};
+
+        Material get_material( void ) const;
 
         bool ray_intersect(const Eigen::Vector3f& origin,
                            const Eigen::Vector3f& view_direction,
