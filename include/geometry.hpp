@@ -187,7 +187,7 @@ class Sphere {
 
         bool ray_intersect(const Eigen::Vector3f& origin,
                            const Eigen::Vector3f& view_direction,
-                           float& t0) const;
+                           float& dist) const;
 };
 
 Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,

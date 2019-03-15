@@ -86,7 +86,7 @@ Material Sphere::get_material( void ) const {
     return this->material;
 }
 
-bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& view_direction, float& t0) const {
+bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& view_direction, float& dist) const {
     // Look here : https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
     // or here: https://github.com/ssloy/tinyraytracer/commit/5806eb45e93dab225ab335824cbc3f537d511b28
     // TODO Derive and rewrite this ray and sphere intersect function
@@ -116,10 +116,10 @@ bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f&
     if (d2 > radius*radius) return false;
 
     float thc = sqrtf(radius*radius - d2);
-    t0       = tca - thc;
+    dist       = tca - thc;
     float t1 = tca + thc;
-    if (t0 < 0) t0 = t1;
-    if (t0 < 0) return false;
+    if (dist < 0) dist = t1;
+    if (dist < 0) return false;
 
     return true;
 }
@@ -135,9 +135,19 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
 }
 
 Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
-        const Eigen::Ref<const Eigen::Ref<const Eigen::Vector3f>& dir,
+        const Eigen::Ref< const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres) {
-
-    // check if ray intersects any of the spheres (whatever is closest) return that color
-    //
+    // set maximum distance
+    float sphere_dist = std::numeric_limits<float>::max();
+    Eigen::Vector3f color(0.2, 0.7, 0.8);
+    // loop over each sphere and check if intersect
+    for (size_t ii = 0; ii < spheres.size(); ii++) {
+        // need to find sphere with minimum distance and output that color
+        float dist_i; // gets modified inside function
+        if (spheres[ii].ray_intersect(orig, dir, dist_i) && dist_i < sphere_dist) {
+            sphere_dist = dist_i;
+            color = spheres[ii].get_material().get_diffuse(); 
+        }
+    }
+    return color;
 }
