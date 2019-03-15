@@ -50,6 +50,18 @@ Eigen::Vector3f Material::get_diffuse( void ) {
     return this->diffuse_color;
 }
 
+// Lights
+Light::Light( void ) {
+    position << 0, -10, 0;
+    intensity = 1;
+}
+
+Light::Light( const Eigen::Ref<const Eigen::Vector3f>& pos_in,
+        const float& int_in) {
+    position = pos_in;
+    intensity = int_in;
+}
+
 // Sphere class
 Sphere::Sphere( void ) {
     center << 0.0, 0.0, 0.0;
@@ -151,3 +163,23 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     }
     return color;
 }
+
+Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
+        const Eigen::Ref< const Eigen::Vector3f>& dir,
+        const std::vector<Sphere>& spheres,
+        const std::vector<Light>& lights) {
+    // set maximum distance
+    float sphere_dist = std::numeric_limits<float>::max();
+    Eigen::Vector3f color(0.2, 0.7, 0.8);
+    // loop over each sphere and check if intersect
+    for (size_t ii = 0; ii < spheres.size(); ii++) {
+        // need to find sphere with minimum distance and output that color
+        float dist_i; // gets modified inside function
+        if (spheres[ii].ray_intersect(orig, dir, dist_i) && dist_i < sphere_dist) {
+            sphere_dist = dist_i;
+            color = spheres[ii].get_material().get_diffuse(); 
+        }
+    }
+    return color;
+}
+

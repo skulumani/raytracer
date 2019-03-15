@@ -6,18 +6,6 @@
 #include "renderer.hpp"
 #include "geometry.hpp"
 
-// Lights
-Light::Light( void ) {
-    position << 0, -10, 0;
-    intensity = 1;
-}
-
-Light::Light( const Eigen::Ref<const Eigen::Vector3f>& pos_in,
-        const float& int_in) {
-    position = pos_in;
-    intensity = int_in;
-}
-
 void render(const Sphere& sphere) {
     // size of image
     const int width    = 64;

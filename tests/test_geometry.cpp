@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 
+#include "renderer.hpp"
 #include "geometry.hpp"
 
 TEST(TestGeometry, Vec2IntConstructor) {

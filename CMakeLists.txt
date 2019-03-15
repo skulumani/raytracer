@@ -63,7 +63,8 @@ set(test_all_src
     tests/test_gtest.cpp
     tests/test_stb.cpp
     tests/test_geometry.cpp
-    src/geometry.cpp)
+    src/geometry.cpp
+    )
 
 add_executable(test_all ${test_all_src})
 target_link_libraries(test_all gtest )

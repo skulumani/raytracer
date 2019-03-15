@@ -153,6 +153,17 @@ std::ostream& operator<<(std::ostream& out, const Vec<DIM,T>& v) {
     return out ;
 }
 
+struct Light {
+    private:
+        Eigen::Vector3f position;
+        float intensity;
+
+    public:
+        Light(const Eigen::Ref<const Eigen::Vector3f>& pos_in,
+                const float& int_in);
+        Light( void );
+
+};
 struct Material {
     private:
         Eigen::Vector3f diffuse_color;
@@ -197,5 +208,10 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
 Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref<const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres);
+
+Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
+        const Eigen::Ref<const Eigen::Vector3f>& dir,
+        const std::vector<Sphere>& spheres,
+        const std::vector<Light>& lights);
 
 #endif
