@@ -98,6 +98,10 @@ Material Sphere::get_material( void ) const {
     return this->material;
 }
 
+Eigen::Vector3f Sphere::get_center( void ) const {
+    return this->center;
+}
+
 bool Sphere::ray_intersect(const Eigen::Vector3f& origin, const Eigen::Vector3f& view_direction, float& dist) const {
     // Look here : https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
     // or here: https://github.com/ssloy/tinyraytracer/commit/5806eb45e93dab225ab335824cbc3f537d511b28
@@ -168,18 +172,32 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref< const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres,
         const std::vector<Light>& lights) {
+    bool background = true;
+
     // set maximum distance
     float sphere_dist = std::numeric_limits<float>::max();
-    Eigen::Vector3f color(0.2, 0.7, 0.8);
+    Eigen::Vector3f color;
+
+    Eigen::Vector3f hit, normal;
     // loop over each sphere and check if intersect
     for (size_t ii = 0; ii < spheres.size(); ii++) {
         // need to find sphere with minimum distance and output that color
         float dist_i; // gets modified inside function
         if (spheres[ii].ray_intersect(orig, dir, dist_i) && dist_i < sphere_dist) {
             sphere_dist = dist_i;
+            hit = orig + dist_i * dir;
+            normal = (hit - spheres[ii].get_center()).normalized();
             color = spheres[ii].get_material().get_diffuse(); 
+            background = false;
         }
     }
-    return color;
+    
+    if (background) {
+        return (Eigen::Vector3f() << 0.2, 0.7, 0.8).finished();
+    } else {
+        // modify the color based on normal.dot(light) intensity
+        // loop over lights and compute dot product
+        return color;
+    }
 }
 

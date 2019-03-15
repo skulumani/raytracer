@@ -195,6 +195,7 @@ class Sphere {
         virtual ~Sphere( void ) {};
 
         Material get_material( void ) const;
+        Eigen::Vector3f get_center( void ) const;
 
         bool ray_intersect(const Eigen::Vector3f& origin,
                            const Eigen::Vector3f& view_direction,
