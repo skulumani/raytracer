@@ -176,8 +176,11 @@ class Sphere {
         
         Sphere( void );
         Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in);
+        Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in,
+                const Material& m_in);
         Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, const float& radius_in);
-
+        Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, const float& radius_in, 
+                const Material& m_in);
         virtual ~Sphere( void ) {};
 
         Material get_material( void ) const;

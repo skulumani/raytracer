@@ -62,10 +62,24 @@ Sphere::Sphere(const float& xc_in, const float& yc_in,
     radius = r_in;
 }
 
+Sphere::Sphere(const float& xc_in, const float& yc_in,
+        const float& zc_in, const float& radius_in, const Material& m_in) {
+    center << xc_in, yc_in, zc_in;
+    radius = radius_in;
+    material = m_in;
+}
+
 Sphere::Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in,
         const float& radius_in) {
     center = center_in;
     radius = radius_in;
+}
+
+Sphere::Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, 
+        const float& radius_in, const Material& m_in) {
+    center = center_in;
+    radius = radius_in;
+    material = m_in;
 }
 
 Material Sphere::get_material( void ) const {
