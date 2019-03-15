@@ -42,6 +42,10 @@ Material::Material(const Eigen::Ref<const Eigen::Vector3f>& color) {
     diffuse_color = color;
 }
 
+Material::Material(const float& r_in, const float& g_in, const float& b_in) {
+    diffuse_color << r_in, g_in, b_in;
+}
+
 Eigen::Vector3f Material::get_diffuse( void ) {
     return this->diffuse_color;
 }

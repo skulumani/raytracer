@@ -160,6 +160,7 @@ struct Material {
     public:
         Material( void );
         Material( const Eigen::Ref<const Eigen::Vector3f>& color);
+        Material(const float& r_in, const float& g_in, const float& b_in);
         
         Eigen::Vector3f get_diffuse( void );
 };
