@@ -194,4 +194,8 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref<const Eigen::Vector3f>& dir,
         const Sphere& sphere);
 
+Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
+        const Eigen::Ref<const Eigen::Vector3f>& dir,
+        const std::vector<Sphere>& spheres);
+
 #endif

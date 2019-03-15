@@ -133,3 +133,11 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     }
     return sphere.get_material().get_diffuse(); // color of sphere
 }
+
+Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
+        const Eigen::Ref<const Eigen::Ref<const Eigen::Vector3f>& dir,
+        const std::vector<Sphere>& spheres) {
+
+    // check if ray intersects any of the spheres (whatever is closest) return that color
+    //
+}

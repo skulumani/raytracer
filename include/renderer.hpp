@@ -10,5 +10,6 @@
 #include "geometry.hpp"
 
 void render( const Sphere& sphere );
+void render(const std::vector<Sphere>& spheres);
 
 #endif
