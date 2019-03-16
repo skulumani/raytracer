@@ -10,6 +10,10 @@ STB
 
 ## Results
 
+* Depth 
+    
+    ![Layer][./docs/layer.jpg)
+
 * Diffuse lighting
     
     ![Diffuse](./docs/diffuse.jpg)
