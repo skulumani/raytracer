@@ -71,6 +71,8 @@ class Camera {
             @version 16 March 2019
         */
         Eigen::Vector3f get_ray(const int& px, const int& py) const;
+        Eigen::Vector3f get_ray(const float& px, const float& py) const;
+        Eigen::Vector3f get_ray(const Eigen::Ref<const Eigen::Vector2f>& p_in) const;
 
         // get the pixel coordinate for a ray from camera
         Eigen::Vector2f get_pixel(const Eigen::Ref<const Eigen::Vector3f>& ray) const;

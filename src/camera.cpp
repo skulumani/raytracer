@@ -22,3 +22,7 @@ Camera::Camera( void ) {
     /* const float dist(height / (2.0 * std::tan(fov_h/2.0))); */
     
 }
+
+Eigen::Vector3f Camera::get_ray(const int& px, const int& py) const {
+
+}
