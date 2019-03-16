@@ -214,6 +214,7 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
             light_dir = (lights[ii].get_position() - hit).normalized();
             diffuse_light_itensity += lights[ii].get_itensity() * std::max(0.0f, (float)(light_dir.dot(normal)));
         }
+
         return color * diffuse_light_itensity;
     }
 }

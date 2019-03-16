@@ -23,9 +23,10 @@ int main() {
 
     // lights   
     std::vector<Light> lights;
-    lights.push_back(Light((Eigen::Vector3f() << 20, -20, 20).finished(), 0.5));
-    lights.push_back(Light((Eigen::Vector3f() << 30, 50,  25).finished(), 1.8));
-    lights.push_back(Light((Eigen::Vector3f() << 30, 20,  30).finished(), 1.7));
+    lights.push_back(Light((Eigen::Vector3f() << 20, -20, 15).finished(), 1.5));
+    /* lights.push_back(Light((Eigen::Vector3f() << 30, -50,  25).finished(), 1.8)); */
+    /* lights.push_back(Light((Eigen::Vector3f() << 30, -20,  30).finished(), 1.7)); */
+
     render(spheres, lights); 
 
     return 0;

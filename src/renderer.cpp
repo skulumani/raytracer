@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <algorithm>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -122,8 +123,8 @@ void render(const std::vector<Sphere>& spheres,
         const std::vector<Light>& lights) {
 
     // size of image
-    const int width    = 1024;
-    const int height   = 768;
+    const int width    = 640;
+    const int height   = 480;
 
     // define camera FOV
     const float fov_h = M_PI/3.0;
@@ -161,9 +162,9 @@ void render(const std::vector<Sphere>& spheres,
 
     #pragma omp parallel for
     for (size_t ii = 0; ii < width * height; ii++) {
-        image[ii * 3 + 0] = (int)(255 * framebuffer[ii]( 0 ));
-        image[ii * 3 + 1] = (int)(255 * framebuffer[ii]( 1 ));
-        image[ii * 3 + 2] = (int)(255 * framebuffer[ii]( 2 ));
+        image[ii * 3 + 0] = (int)(255 * std::max(0.0f, std::min(1.0f, (float)(framebuffer[ii]( 0 )))));
+        image[ii * 3 + 1] = (int)(255 * std::max(0.0f, std::min(1.0f, (float)(framebuffer[ii]( 1 )))));
+        image[ii * 3 + 2] = (int)(255 * std::max(0.0f, std::min(1.0f, (float)(framebuffer[ii]( 2 )))));
     }
 
     stbi_write_jpg("out.jpg",width, height, 3, image, 95);
