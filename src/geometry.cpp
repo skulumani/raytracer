@@ -38,14 +38,40 @@ const T& Vec<DIM, T>::operator [] (const size_t ii) const {
 // Material class
 Material::Material( void ) {
     diffuse_color = Eigen::Vector3f::Random().cwiseAbs();
+    ambient_color = diffuse_color;
+    specular_color = diffuse_color;
+
+    albedo << 1, 0;
+    specular_constant = 0;
 }
 
 Material::Material(const Eigen::Ref<const Eigen::Vector3f>& color) {
     diffuse_color = color;
+    ambient_color = color;
+    specular_color = color;
+
+    albedo << 1, 0;
+    specular_constant = 0;
 }
 
 Material::Material(const float& r_in, const float& g_in, const float& b_in) {
     diffuse_color << r_in, g_in, b_in;
+    ambient_color = diffuse_color;
+    specular_color = diffuse_color;
+
+    albedo << 1, 0;
+    specular_constant = 0;
+}
+
+Material::Material(const Eigen::Ref<const Eigen::Vector2f>& albedo_in,
+        const Eigen::Ref<const Eigen::Vector3f>& color,
+        const float& spec) {
+    diffuse_color = color;
+    ambient_color = color;
+    specular_color = color;
+
+    albedo = albedo_in;
+    specular_constant = spec;
 }
 
 Eigen::Vector3f Material::get_diffuse( void ) {
