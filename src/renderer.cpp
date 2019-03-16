@@ -71,8 +71,8 @@ void render(const Sphere& sphere) {
 void render(const std::vector<Sphere>& spheres) {
 
     // size of image
-    const int width    = 64;
-    const int height   = 64;
+    const int width    = 1024;
+    const int height   = 768;
 
     // define camera FOV
     const float fov_h = M_PI/3.0;

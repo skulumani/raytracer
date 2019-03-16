@@ -12,7 +12,7 @@ STB
 
 * Depth 
     
-    ![Layer][./docs/layer.jpg)
+    ![Layer](./docs/layer.jpg)
 
 * Diffuse lighting
     
