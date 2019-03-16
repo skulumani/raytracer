@@ -162,6 +162,10 @@ struct Light {
         Light(const Eigen::Ref<const Eigen::Vector3f>& pos_in,
                 const float& int_in);
         Light( void );
+        virtual ~Light( void ) {};
+
+        Eigen::Vector3f get_position( void ) const;
+        float get_itensity( void ) const;
 
 };
 struct Material {
@@ -170,6 +174,8 @@ struct Material {
 
     public:
         Material( void );
+        virtual ~Material( void ) {};
+
         Material( const Eigen::Ref<const Eigen::Vector3f>& color);
         Material(const float& r_in, const float& g_in, const float& b_in);
         
@@ -186,13 +192,14 @@ class Sphere {
     public:
         
         Sphere( void );
+        virtual ~Sphere( void ) {};
+
         Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in);
         Sphere(const float& xc_in, const float& yc_in, const float& zc_in, const float& r_in,
                 const Material& m_in);
         Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, const float& radius_in);
         Sphere(const Eigen::Ref<const Eigen::Vector3f>& center_in, const float& radius_in, 
                 const Material& m_in);
-        virtual ~Sphere( void ) {};
 
         Material get_material( void ) const;
         Eigen::Vector3f get_center( void ) const;

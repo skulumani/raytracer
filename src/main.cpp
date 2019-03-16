@@ -21,7 +21,12 @@ int main() {
     spheres.push_back(Sphere( 1.5, -0.5, 18, 3, plywood));
     spheres.push_back(Sphere( 7,    5,   18, 4,      teal));
 
-    render(spheres); 
+    // lights   
+    std::vector<Light> lights;
+    lights.push_back(Light((Eigen::Vector3f() << 20, -20, 20).finished(), 0.5));
+    lights.push_back(Light((Eigen::Vector3f() << 30, 50,  25).finished(), 1.8));
+    lights.push_back(Light((Eigen::Vector3f() << 30, 20,  30).finished(), 1.7));
+    render(spheres, lights); 
 
     return 0;
 }

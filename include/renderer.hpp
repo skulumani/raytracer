@@ -13,6 +13,6 @@
 
 void render( const Sphere& sphere );
 void render(const std::vector<Sphere>& spheres);
-
+void render(const std::vector<Sphere>& spheres, const std::vector<Light>& lights);
 
 #endif

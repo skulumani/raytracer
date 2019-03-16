@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "geometry.hpp"
 
 // members for Vec class
@@ -60,6 +62,14 @@ Light::Light( const Eigen::Ref<const Eigen::Vector3f>& pos_in,
         const float& int_in) {
     position = pos_in;
     intensity = int_in;
+}
+
+Eigen::Vector3f Light::get_position( void ) const {
+    return this->position;
+}
+
+float Light::get_itensity( void ) const {
+    return this->intensity;
 }
 
 // Sphere class
@@ -197,7 +207,14 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     } else {
         // modify the color based on normal.dot(light) intensity
         // loop over lights and compute dot product
-        return color;
+        Eigen::Vector3f light_dir;
+        float diffuse_light_itensity = 0;
+
+        for (size_t ii = 0; ii < lights.size(); ii++) {
+            light_dir = (lights[ii].get_position() - hit).normalized();
+            diffuse_light_itensity += lights[ii].get_itensity() * std::max(0.0f, (float)(light_dir.dot(normal)));
+        }
+        return color * diffuse_light_itensity;
     }
 }
 
