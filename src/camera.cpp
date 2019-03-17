@@ -20,9 +20,29 @@ Camera::Camera( void ) {
 
     // focal length
     /* const float dist(height / (2.0 * std::tan(fov_h/2.0))); */
-    
+     init();    
 }
 
-Eigen::Vector3f Camera::get_ray(const int& px, const int& py) const {
+/* Eigen::Vector3f Camera::get_ray(const int& px, const int& py) const { */
+
+/* } */
+
+void Camera::init( void ) {
+    // form intrinsic matrix
+    extrinsic.block(0, 0, 3, 3) = Eigen::Matrix3f::Identity();
+    extrinsic.col(3) = Eigen::Vector3f::Zero();
+
+    // form extrinsic matrix
+    intrinsic = Eigen::Matrix3f::Zero();
+    intrinsic(0, 0) = m_focal(0);
+    intrinsic(1, 1) = m_focal(1);
+    intrinsic(2, 2) = 1;
+    intrinsic(0, 2) = m_center(0);
+    intrinsic(1, 2) = m_center(1);
 
 }
+
+Eigen::Vector3f Camera::get_position( void ) const {
+    return m_position;
+}
+

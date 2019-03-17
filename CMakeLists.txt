@@ -63,7 +63,9 @@ set(test_all_src
     tests/test_gtest.cpp
     tests/test_stb.cpp
     tests/test_geometry.cpp
+    tests/test_camera.cpp
     src/geometry.cpp
+    src/camera.cpp
     )
 
 add_executable(test_all ${test_all_src})
