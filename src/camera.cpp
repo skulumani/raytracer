@@ -101,8 +101,8 @@ int Camera::get_pixel( const Eigen::Ref<const Eigen::Vector3f>& ray,
         pixel = pixel_homogenous.head(2) / pixel_homogenous(2);
     }
 
-    if (pixel(0) > m_image_size(0) || pixel(1) > m_image_size(1) || 
-            pixel(0) < 0 || pixel(1) < 0) {
+    if (pixel(0) > m_image_size(0)/2 || pixel(1) > m_image_size(1)/2 || 
+            pixel(0) < -m_image_size(0)/2 || pixel(1) < -m_image_size(1)/2) {
         return -2;
     } else {
         return 0;
@@ -113,5 +113,27 @@ int Camera::get_pixel(const float& rx, const float& ry, const float& rz,
         Eigen::Ref<Eigen::Vector2f> pixel) const {
     Eigen::Vector3f ray(rx, ry, rz);
     int success = this->get_pixel(ray, pixel);
+    return success;
+}
+
+int Camera::get_ray( const Eigen::Ref<const Eigen::Vector2f>& p_in,
+        Eigen::Ref<Eigen::Vector3f> ray) const {
+    // pixel within image frame
+    if (p_in(0) > m_image_size(0)/2 || p_in(1) > m_image_size(1)/2 ||
+            p_in(0) < -m_image_size(0)/2 || p_in(1) < -m_image_size(1)/2) {
+        ray = Eigen::Vector3f::Zero();
+        return -1;
+    } else {
+        Eigen::Vector3f pixel_homogenous(p_in(0), p_in(1), 1);
+        ray = m_intrinsic.inverse() * pixel_homogenous;
+        ray.normalize();
+        return 0;
+    }
+}
+
+int Camera::get_ray(const float& px, const float& py,
+        Eigen::Ref<Eigen::Vector3f> ray) const {
+    Eigen::Vector2f p_in(px, py);
+    int success = this->get_ray(p_in, ray);
     return success;
 }

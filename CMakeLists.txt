@@ -51,6 +51,7 @@ add_executable(main
     src/main.cpp 
     src/geometry.cpp
     src/renderer.cpp
+    src/camera.cpp
 )
 # target_link_libraries(main
 ################################################################################

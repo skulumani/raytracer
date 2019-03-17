@@ -55,3 +55,20 @@ TEST(TestCamera, RelativeWorldtoPixelOffImage) {
     int success = cam.get_pixel(cam_vec, pixel);
     ASSERT_EQ(success, -2);
 }
+
+TEST(TestCamera, PixeltoRelativeRayCenter) {
+    Camera cam;
+    Eigen::Vector2f pixel(320, 240);
+    Eigen::Vector3f ray;
+    int success = cam.get_ray(pixel, ray);
+    ASSERT_EQ(success, 0);
+    ASSERT_TRUE(ray.isApprox(cam.get_view_axis()));
+}
+
+TEST(TestCamera, PixeltoRelativeRayOffImage) {
+    Camera cam;
+    Eigen::Vector2f pixel(1000, 1000);
+    Eigen::Vector3f ray;
+    int success = cam.get_ray(pixel, ray);
+    ASSERT_EQ(success, -1);
+}

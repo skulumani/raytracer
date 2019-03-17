@@ -68,6 +68,49 @@ void render(const Sphere& sphere) {
     /* ofs.close(); */
 }
 
+void render(const Camera& cam, const Sphere& sphere) {
+    // get image size
+    Eigen::Vector2i image_size;
+    image_size = cam.get_image_size();
+    int width = image_size(0);
+    int height = image_size(1);
+    
+    Eigen::Vector3f cam_axis, right_axis, up_axis;
+    cam_axis = 20*cam.get_view_axis();
+    right_axis = cam.get_right_axis();
+    up_axis = cam.get_up_axis();
+
+    // data for the image RGB 
+    std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f> > framebuffer(width*height);
+    Eigen::Vector3f origin(0, 0, 0); 
+    #pragma omp parallel for
+    for (size_t jj = 0; jj < height; jj++) {
+        for (size_t ii = 0; ii < width; ii++) {
+            Eigen::Vector3f cam_vec;
+            int success = cam.get_ray((ii + 0.5) - width/2,
+                                      (jj + 0.5) - height/2,
+                                      cam_vec);
+            Eigen::Vector3f ray_vec = cam_axis + ((ii+0.5) - width/2) * right_axis + ((jj+0.5) - height/2) * up_axis;
+
+            std::cout << "Success: " << "1" << " " << (ii+0.5) - width/2 << "," << (jj+0.5) - height/2 << " " << "Cam: " << cam_vec.transpose() << " Ray: " << ray_vec.transpose().normalized() << std::endl;
+            // define view direction
+
+            framebuffer[ii+jj*width] = cast_ray(origin, ray_vec.normalized(), sphere);
+
+        }
+    }
+    std::uint8_t image[width * height * 3];
+
+    #pragma omp parallel for
+    for (size_t ii = 0; ii < width * height; ii++) {
+        image[ii * 3 + 0] = (int)(255 * framebuffer[ii]( 0 ));
+        image[ii * 3 + 1] = (int)(255 * framebuffer[ii]( 1 ));
+        image[ii * 3 + 2] = (int)(255 * framebuffer[ii]( 2 ));
+    }
+
+    stbi_write_jpg("out.jpg",width, height, 3, image, 95);
+}
+
 void render(const std::vector<Sphere>& spheres) {
 
     // size of image

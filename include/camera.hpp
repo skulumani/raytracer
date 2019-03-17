@@ -78,6 +78,14 @@ class Camera {
             return *this;
         }
 
+        inline Camera& image_size(const int& width, const int& height) {
+            m_image_size << width, height;
+            m_focal(0) = m_image_size(0) / (2.0 * std::tan(m_fov(0) / 2.0));
+            m_focal(1) = m_image_size(1) / (2.0 * std::tan(m_fov(1) / 2.0));
+            init();
+            return *this;
+        }
+
         Eigen::Vector3f get_position( void ) const;
         Eigen::Vector3f get_view_axis( void ) const;
         Eigen::Vector3f get_up_axis( void ) const;
@@ -99,16 +107,18 @@ class Camera {
             @author Shankar Kulumani
             @version 16 March 2019
         */
-        Eigen::Vector3f get_ray(const int& px, const int& py) const;
-        Eigen::Vector3f get_ray(const float& px, const float& py) const;
-        Eigen::Vector3f get_ray(const Eigen::Ref<const Eigen::Vector2f>& p_in) const;
+        int get_ray(const float& px, const float& py,
+                Eigen::Ref<Eigen::Vector3f> ray) const;
+        int get_ray(const Eigen::Ref<const Eigen::Vector2f>& p_in,
+                Eigen::Ref<Eigen::Vector3f> ray) const;
 
         // get the pixel coordinate for a ray from camera (position vector in camera frame)
         int get_pixel(const Eigen::Ref<const Eigen::Vector3f>& ray,
                 Eigen::Ref<Eigen::Vector2f> pixel) const;
         int get_pixel(const float& rx, const float& ry, const float& rz,
                 Eigen::Ref<Eigen::Vector2f> pixel) const;
-    
+        // TODO Think about templates for int/float/double types 
+        
         // TODO Vector in the inertial frame (need to first get relative vector)
         // TODO Rotate cam
         // TODO translate cam

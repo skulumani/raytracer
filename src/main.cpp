@@ -1,8 +1,12 @@
 #include "renderer.hpp"
 #include "geometry.hpp"
+#include "camera.hpp"
 
 int main() {
-    
+    // define a camera
+    Camera cam;
+    cam.image_size(64, 64);
+
     // define different materials
     Material ivory(0.4, 0.4, 0.3);
     Material red_rubber(0.3, 0.1, 0.1);
@@ -11,7 +15,7 @@ int main() {
 
     // define a sphere
     //
-    Eigen::Vector3f center(0, 0, 10);
+    Eigen::Vector3f center(0, 0, 5);
     float radius(1);
     Sphere sphere(center, radius);
 
@@ -26,8 +30,10 @@ int main() {
     lights.push_back(Light((Eigen::Vector3f() << 20, -20, 15).finished(), 1.5));
     lights.push_back(Light((Eigen::Vector3f() << -30, -50,  25).finished(), 0.5));
     /* lights.push_back(Light((Eigen::Vector3f() << 30, -20,  30).finished(), 1.7)); */
-
-    render(spheres, lights); 
+    
+    /* render(sphere); */
+    render(cam, sphere);
+    /* render(spheres, lights); */ 
 
     return 0;
 }
