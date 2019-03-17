@@ -1,3 +1,6 @@
+#include <iostream>
+#include <assert.h>
+
 #include "camera.hpp"
 
 // Camera object
@@ -78,7 +81,37 @@ Eigen::Matrix3f Camera::get_intrinsic( void ) const {
     return m_intrinsic;
 }
 
-Eigen::Vector2f Camera::get_pixel( const Eigen::Ref<const Eigen::Vector3f>& ray) const {
-    // forward transformation world to cam
-    return Eigen::Vector2f::Zero();
+int Camera::get_pixel( const Eigen::Ref<const Eigen::Vector3f>& ray,
+        Eigen::Ref<Eigen::Vector2f> pixel) const {
+    // forward transformation vector in camera frame to pixel location
+    // needs to be infront of camera
+
+    /* assert( ray(2) > 0 ); */
+    // make sure pixel is within image plane
+    
+    if (ray(2) <= 0) {
+        // behind the image plane
+        pixel << -1, -1;
+        return -1;
+    } else {
+        // make a homegeneous vector
+        Eigen::Vector4f cam_vec;
+        cam_vec << ray, 1;
+        Eigen::Vector3f pixel_homogenous = m_intrinsic * m_extrinsic * cam_vec;
+        pixel = pixel_homogenous.head(2) / pixel_homogenous(2);
+    }
+
+    if (pixel(0) > m_image_size(0) || pixel(1) > m_image_size(1) || 
+            pixel(0) < 0 || pixel(1) < 0) {
+        return -2;
+    } else {
+        return 0;
+    }
+}
+
+int Camera::get_pixel(const float& rx, const float& ry, const float& rz,
+        Eigen::Ref<Eigen::Vector2f> pixel) const {
+    Eigen::Vector3f ray(rx, ry, rz);
+    int success = this->get_pixel(ray, pixel);
+    return success;
 }

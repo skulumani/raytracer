@@ -17,3 +17,41 @@ TEST(TestCamera, CameraNamedParameter) {
     ASSERT_TRUE(cam.get_position().isApprox((Eigen::Vector3f() << 1, 2, 3).finished()));
     ASSERT_TRUE(cam.get_image_size().isApprox((Eigen::Vector2i() << 692, 692).finished()));
 }
+
+TEST(TestCamera, RelativeWorldtoPixelOrigin) {
+    Camera cam;
+    Eigen::Vector3f world_pos;
+    world_pos = cam.get_view_axis();
+    Eigen::Vector2f pixel;
+    int success = cam.get_pixel(world_pos, pixel);
+    ASSERT_EQ(success, 0);
+    ASSERT_TRUE(pixel.isApprox(cam.get_center().cast<float>()));
+}
+
+TEST(TestCamera, RelativeWorldtoPixelOriginScaled) {
+    Camera cam;
+    Eigen::Vector3f cam_vec;
+    cam_vec = 10*cam.get_view_axis();
+    Eigen::Vector2f pixel;
+    int success = cam.get_pixel(cam_vec, pixel);
+    ASSERT_EQ(success, 0);
+    ASSERT_TRUE(pixel.isApprox(cam.get_center().cast<float>()));
+}
+
+TEST(TestCamera, RelativeWorldtoPrixelBehind) {
+    Camera cam;
+    cam.position((Eigen::Vector3f() << 1, 2, 3).finished());
+    Eigen::Vector3f cam_vec(0, 0, -1); // vector in camera frame
+    Eigen::Vector2f pixel;
+    int success = cam.get_pixel(cam_vec, pixel);
+    ASSERT_EQ(success, -1);
+}
+
+TEST(TestCamera, RelativeWorldtoPixelOffImage) {
+    Camera cam;
+    Eigen::Vector3f cam_vec;
+    cam_vec << 10, 0, 0.1;
+    Eigen::Vector2f pixel;
+    int success = cam.get_pixel(cam_vec, pixel);
+    ASSERT_EQ(success, -2);
+}

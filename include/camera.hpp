@@ -103,10 +103,13 @@ class Camera {
         Eigen::Vector3f get_ray(const float& px, const float& py) const;
         Eigen::Vector3f get_ray(const Eigen::Ref<const Eigen::Vector2f>& p_in) const;
 
-        // get the pixel coordinate for a ray from camera
-        Eigen::Vector2f get_pixel(const Eigen::Ref<const Eigen::Vector3f>& ray) const;
-        Eigen::Vector2f get_pixel(const float& rx, const float& ry, const float& rz) const;
-
+        // get the pixel coordinate for a ray from camera (position vector in camera frame)
+        int get_pixel(const Eigen::Ref<const Eigen::Vector3f>& ray,
+                Eigen::Ref<Eigen::Vector2f> pixel) const;
+        int get_pixel(const float& rx, const float& ry, const float& rz,
+                Eigen::Ref<Eigen::Vector2f> pixel) const;
+    
+        // TODO Vector in the inertial frame (need to first get relative vector)
         // TODO Rotate cam
         // TODO translate cam
         // TODO put inside the renderer
