@@ -105,6 +105,7 @@ class Camera {
 
         // get the pixel coordinate for a ray from camera
         Eigen::Vector2f get_pixel(const Eigen::Ref<const Eigen::Vector3f>& ray) const;
+        Eigen::Vector2f get_pixel(const float& rx, const float& ry, const float& rz) const;
 
         // TODO Rotate cam
         // TODO translate cam

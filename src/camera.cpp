@@ -12,9 +12,9 @@ Camera::Camera( void ) {
 
     /* fov_h = M_PI/3.0; */
     /* fov_w = M_PI/3.0; */
-    
-    m_focal << 554, 554;
     m_image_size << 640, 480;
+    m_focal(0) = m_image_size(0) / ( 2.0 * std::tan(m_fov(0) / 2.0));
+    m_focal(1) = m_image_size(1) / ( 2.0 * std::tan(m_fov(1) / 2.0));
     
     m_center = m_image_size / 2;
 
@@ -76,4 +76,9 @@ Eigen::Matrix<float, 3, 4> Camera::get_extrinsic( void ) const {
 
 Eigen::Matrix3f Camera::get_intrinsic( void ) const {
     return m_intrinsic;
+}
+
+Eigen::Vector2f Camera::get_pixel( const Eigen::Ref<const Eigen::Vector3f>& ray) const {
+    // forward transformation world to cam
+    return Eigen::Vector2f::Zero();
 }
