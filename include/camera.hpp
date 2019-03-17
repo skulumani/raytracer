@@ -16,11 +16,13 @@ class Camera {
         Eigen::Vector2f m_focal;
         // image plane size in pixels width, height
         Eigen::Vector2i m_image_size;
+        // field of view (horiztonal and vertical)
+        const Eigen::Vector2f m_fov = (Eigen::Vector2f() << M_PI/3.0, M_PI/3.0).finished(); 
 
         Eigen::Vector2i m_center;
 
-        Eigen::Matrix<float, 3, 4> extrinsic;
-        Eigen::Matrix3f intrinsic;
+        Eigen::Matrix<float, 3, 4> m_extrinsic;
+        Eigen::Matrix3f m_intrinsic;
         
         void init( void );
 
@@ -54,6 +56,9 @@ class Camera {
         
         inline Camera& focal(const Eigen::Ref<const Eigen::Vector2f>& focal_in) {
             m_focal = focal_in;
+            // compute the image size
+            m_image_size(0) = m_focal(0) * 2.0 * std::tan(m_fov(0) / 2.0);
+            m_image_size(1) = m_focal(1) * 2.0 * std::tan(m_fov(1) / 2.0);
             init();
             return *this;
         }
@@ -66,11 +71,22 @@ class Camera {
 
         inline Camera& image_size(const Eigen::Ref<const Eigen::Vector2i>& image_size_in) {
             m_image_size = image_size_in;
+            // adjust the focal length
+            m_focal(0) = m_image_size(0) / (2.0 * std::tan(m_fov(0) / 2.0));
+            m_focal(1) = m_image_size(1) / (2.0 * std::tan(m_fov(1) / 2.0));
             init();
             return *this;
         }
 
         Eigen::Vector3f get_position( void ) const;
+        Eigen::Vector3f get_view_axis( void ) const;
+        Eigen::Vector3f get_up_axis( void ) const;
+        Eigen::Vector3f get_right_axis( void ) const;
+        Eigen::Vector2f get_focal( void ) const;
+        Eigen::Vector2i get_image_size( void ) const;
+        Eigen::Vector2i get_center( void ) const;
+        Eigen::Matrix<float, 3, 4> get_extrinsic( void ) const;
+        Eigen::Matrix3f get_intrinsic( void ) const;
         /** @fn EigeN::Vector3f get_ray(const int& px, const int& py) const
                 
             Get the ray from camera center to center of pixel px, py in the 
