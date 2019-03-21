@@ -17,3 +17,7 @@ STB
 * Diffuse lighting
     
     ![Diffuse](./docs/diffuse.jpg)
+
+* Phong Reflection Model
+
+    ![Phong](./docs/phong.jpg)
