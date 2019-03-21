@@ -17,7 +17,7 @@ class Camera {
         // image plane size in pixels width, height
         Eigen::Vector2i m_image_size;
         // field of view (horiztonal and vertical)
-        const Eigen::Vector2f m_fov = (Eigen::Vector2f() << M_PI/3.0, M_PI/3.0).finished(); 
+        const Eigen::Vector2f m_fov = (Eigen::Vector2f() << M_PI/2.0, M_PI/2.0).finished(); 
 
         Eigen::Vector2i m_center;
 
@@ -74,6 +74,7 @@ class Camera {
             // adjust the focal length
             m_focal(0) = m_image_size(0) / (2.0 * std::tan(m_fov(0) / 2.0));
             m_focal(1) = m_image_size(1) / (2.0 * std::tan(m_fov(1) / 2.0));
+            m_center << image_size_in / 2;
             init();
             return *this;
         }
@@ -82,6 +83,7 @@ class Camera {
             m_image_size << width, height;
             m_focal(0) = m_image_size(0) / (2.0 * std::tan(m_fov(0) / 2.0));
             m_focal(1) = m_image_size(1) / (2.0 * std::tan(m_fov(1) / 2.0));
+            m_center << width / 2, height / 2;
             init();
             return *this;
         }

@@ -119,8 +119,8 @@ int Camera::get_pixel(const float& rx, const float& ry, const float& rz,
 int Camera::get_ray( const Eigen::Ref<const Eigen::Vector2f>& p_in,
         Eigen::Ref<Eigen::Vector3f> ray) const {
     // pixel within image frame
-    if (p_in(0) > m_image_size(0)/2 || p_in(1) > m_image_size(1)/2 ||
-            p_in(0) < -m_image_size(0)/2 || p_in(1) < -m_image_size(1)/2) {
+    if (p_in(0) > m_image_size(0) || p_in(1) > m_image_size(1) ||
+            p_in(0) < 0 || p_in(1) < 0) {
         ray = Eigen::Vector3f::Zero();
         return -1;
     } else {

@@ -72,3 +72,18 @@ TEST(TestCamera, PixeltoRelativeRayOffImage) {
     int success = cam.get_ray(pixel, ray);
     ASSERT_EQ(success, -1);
 }
+
+TEST(TestCamera, RaytoPixel64x64) {
+    Camera cam;
+    cam.image_size(64, 64);
+    Eigen::Vector3f ray, ray_out;
+    Eigen::Vector2f pixel;
+    ray << 0.5, 0, 1;
+    cam.get_pixel(ray, pixel);
+    cam.get_ray(pixel, ray_out);
+    
+    std::cout << pixel << std::endl;
+    std::cout << ray_out << std::endl;
+    ASSERT_TRUE(pixel.isApprox((Eigen::Vector2f() << 48, 32).finished()));
+    ASSERT_TRUE(ray_out.isApprox(ray.normalized()));
+}
