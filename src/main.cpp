@@ -14,8 +14,8 @@ int main() {
     Material teal(0.325, 0.835, 0.796);
 
     // define a sphere
-    //
-    Eigen::Vector3f center(0, 0, 5);
+    // positions are in the camera frame
+    Eigen::Vector3f center(1, 1, 2);
     float radius(1);
     Sphere sphere(center, radius);
 

@@ -87,15 +87,12 @@ void render(const Camera& cam, const Sphere& sphere) {
     for (size_t jj = 0; jj < height; jj++) {
         for (size_t ii = 0; ii < width; ii++) {
             Eigen::Vector3f cam_vec;
-            int success = cam.get_ray((ii + 0.5) - width/2,
-                                      (jj + 0.5) - height/2,
+            int success = cam.get_ray((ii + 0.5) ,
+                                      (jj + 0.5),
                                       cam_vec);
-            Eigen::Vector3f ray_vec = cam_axis + ((ii+0.5) - width/2) * right_axis + ((jj+0.5) - height/2) * up_axis;
-
-            std::cout << "Success: " << "1" << " " << (ii+0.5) - width/2 << "," << (jj+0.5) - height/2 << " " << "Cam: " << cam_vec.transpose() << " Ray: " << ray_vec.transpose().normalized() << std::endl;
+            /* Eigen::Vector3f ray_vec = cam_axis + ((ii+0.5) - width/2) * right_axis + ((jj+0.5) - height/2) * up_axis; */
             // define view direction
-
-            framebuffer[ii+jj*width] = cast_ray(origin, ray_vec.normalized(), sphere);
+            framebuffer[ii+jj*width] = cast_ray(origin, cam_vec.normalized(), sphere);
 
         }
     }
