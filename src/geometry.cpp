@@ -39,28 +39,28 @@ const T& Vec<DIM, T>::operator [] (const size_t ii) const {
 Material::Material( void ) {
     diffuse_color = Eigen::Vector3f::Random().cwiseAbs();
     ambient_color = diffuse_color;
-    specular_color = diffuse_color;
+    specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
-    albedo << 1, 0;
-    specular_constant = 0;
+    albedo << 0.5, 0.5;
+    specular_constant = 10;
 }
 
 Material::Material(const Eigen::Ref<const Eigen::Vector3f>& color) {
     diffuse_color = color;
     ambient_color = color;
-    specular_color = color;
+    specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
-    albedo << 1, 0;
-    specular_constant = 0;
+    albedo << 0.9, 0.1;
+    specular_constant = 10;
 }
 
 Material::Material(const float& r_in, const float& g_in, const float& b_in) {
     diffuse_color << r_in, g_in, b_in;
     ambient_color = diffuse_color;
-    specular_color = diffuse_color;
+    specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
-    albedo << 1, 0;
-    specular_constant = 0;
+    albedo << 0.6, 0.4;
+    specular_constant = 50;
 }
 
 Material::Material(const Eigen::Ref<const Eigen::Vector2f>& albedo_in,
@@ -68,7 +68,7 @@ Material::Material(const Eigen::Ref<const Eigen::Vector2f>& albedo_in,
         const float& spec) {
     diffuse_color = color;
     ambient_color = color;
-    specular_color = color;
+    specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
     albedo = albedo_in;
     specular_constant = spec;
@@ -76,6 +76,18 @@ Material::Material(const Eigen::Ref<const Eigen::Vector2f>& albedo_in,
 
 Eigen::Vector3f Material::get_diffuse( void ) {
     return this->diffuse_color;
+}
+
+Eigen::Vector3f Material::get_specular( void ) {
+    return this->specular_color;
+}
+
+Eigen::Vector2f Material::get_albedo( void ) {
+    return this->albedo;
+}
+
+float Material::get_specular_constant( void ) {
+    return this->specular_constant;
 }
 
 // Lights
@@ -213,6 +225,7 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     // set maximum distance
     float sphere_dist = std::numeric_limits<float>::max();
     Eigen::Vector3f color;
+    Material material;
 
     Eigen::Vector3f hit, normal;
     // loop over each sphere and check if intersect
@@ -224,6 +237,7 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
             hit = orig + dist_i * dir;
             normal = (hit - spheres[ii].get_center()).normalized();
             color = spheres[ii].get_material().get_diffuse(); 
+            material = spheres[ii].get_material();
             background = false;
         }
     }
@@ -234,14 +248,26 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         // modify the color based on normal.dot(light) intensity
         // loop over lights and compute dot product
         Eigen::Vector3f light_dir;
-        float diffuse_light_itensity = 0;
+        float diffuse_light_intensity = 0;
+        float specular_light_intensity = 0;
 
         for (size_t ii = 0; ii < lights.size(); ii++) {
             light_dir = (lights[ii].get_position() - hit).normalized();
-            diffuse_light_itensity += lights[ii].get_itensity() * std::max(0.0f, (float)(light_dir.dot(normal)));
+            diffuse_light_intensity += lights[ii].get_itensity() * std::max(0.0f, (float)(light_dir.dot(normal)));
+            specular_light_intensity += powf(std::max(0.0f, reflection(-light_dir, normal).dot(dir)), 
+                                             material.get_specular_constant()) * lights[ii].get_itensity();
         }
 
-        return color * diffuse_light_itensity;
+        return material.get_diffuse() * diffuse_light_intensity * material.get_albedo()(0) +
+            material.get_specular() * specular_light_intensity * material.get_albedo()(1);
     }
+}
+
+Eigen::Vector3f reflection(const Eigen::Ref< const Eigen::Vector3f>& light, 
+        const Eigen::Ref< const Eigen::Vector3f>& normal) {
+    Eigen::Vector3f reflect;
+    // assumes unit vectors
+    reflect = 2 * light.dot(normal)* normal - light;
+    return reflect;
 }
 

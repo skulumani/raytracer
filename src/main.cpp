@@ -5,13 +5,21 @@
 int main() {
     // define a camera
     Camera cam;
-    cam.image_size(64, 64);
+    cam.image_size(640, 480);
 
     // define different materials
-    Material ivory(0.4, 0.4, 0.3);
-    Material red_rubber(0.3, 0.1, 0.1);
-    Material plywood(0.835, 0.796, 0.325);
-    Material teal(0.325, 0.835, 0.796);
+    Material ivory((Eigen::Vector2f() << 0.6, 0.3).finished(),
+            (Eigen::Vector3f() << 0.4, 0.4, 0.3).finished(),
+            50);
+    Material red_rubber((Eigen::Vector2f() << 0.9, 0.1).finished(),
+            (Eigen::Vector3f() << 0.3, 0.1, 0.1).finished(),
+            20);
+    Material plywood((Eigen::Vector2f() << 0.9, 0.1).finished(),
+            (Eigen::Vector3f() << 0.835, 0.796, 0.325).finished(),
+            5);
+    Material teal((Eigen::Vector2f() << 0.8, 0.2).finished(), 
+            (Eigen::Vector3f() << 0.325, 0.835, 0.796).finished(),
+            20);
 
     // define a sphere
     // positions are in the camera frame
@@ -28,15 +36,19 @@ int main() {
     // lights   
     std::vector<Light> lights;
     lights.push_back(Light((Eigen::Vector3f() << 20, -20, 15).finished(), 1.5));
-    lights.push_back(Light((Eigen::Vector3f() << -30, -50,  25).finished(), 0.5));
-    /* lights.push_back(Light((Eigen::Vector3f() << 30, -20,  30).finished(), 1.7)); */
+    lights.push_back(Light((Eigen::Vector3f() << -30, -50,  25).finished(), 0.7));
+    lights.push_back(Light((Eigen::Vector3f() << 0, 0,  5).finished(), 0.3));
     
     /* render(sphere); */
     /* render(cam, sphere); */
 
     /* render(spheres); */
-    render(cam, spheres);
+    /* render(cam, spheres); */
+
     /* render(spheres, lights); */ 
+    /* render(cam, spheres, lights); */
+
+    phong_render(cam, spheres, lights);
 
     return 0;
 }

@@ -22,9 +22,11 @@ void render(const Camera& cam, const std::vector<Sphere>& spheres);
 
 // multiple spheres, lights and diffuse lighting
 void render(const std::vector<Sphere>& spheres, const std::vector<Light>& lights);
+void render( const Camera& cam, const std::vector<Sphere>& spheres, const std::vector<Light>& lights);
 
 // multiple spheres and phong lighting model
-void phong_render(const std::vector<Sphere>& spheres, const std::vector<Light>& lights);
+void phong_render(const Camera& cam, 
+        const std::vector<Sphere>& spheres, const std::vector<Light>& lights);
 
 
 #endif

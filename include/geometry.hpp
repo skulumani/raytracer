@@ -185,6 +185,9 @@ struct Material {
                 const float& spec);
 
         Eigen::Vector3f get_diffuse( void );
+        Eigen::Vector3f get_specular( void );
+        Eigen::Vector2f get_albedo( void );
+        float get_specular_constant( void );
 };
 
 // sphere class
@@ -226,5 +229,8 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref<const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres,
         const std::vector<Light>& lights);
+
+Eigen::Vector3f reflection(const Eigen::Ref<const Eigen::Vector3f>& light,
+        const Eigen::Ref<const Eigen::Vector3f>& normal);
 
 #endif
