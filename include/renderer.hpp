@@ -18,6 +18,7 @@ void render( const Camera& cam, const Sphere& sphere);
 
 // multiple spheres
 void render(const std::vector<Sphere>& spheres);
+void render(const Camera& cam, const std::vector<Sphere>& spheres);
 
 // multiple spheres, lights and diffuse lighting
 void render(const std::vector<Sphere>& spheres, const std::vector<Light>& lights);

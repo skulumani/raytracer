@@ -32,7 +32,10 @@ int main() {
     /* lights.push_back(Light((Eigen::Vector3f() << 30, -20,  30).finished(), 1.7)); */
     
     /* render(sphere); */
-    render(cam, sphere);
+    /* render(cam, sphere); */
+
+    /* render(spheres); */
+    render(cam, spheres);
     /* render(spheres, lights); */ 
 
     return 0;

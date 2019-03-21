@@ -159,6 +159,56 @@ void render(const std::vector<Sphere>& spheres) {
 
 }
 
+void render(const Camera& cam, const std::vector<Sphere>& spheres) {
+
+    // size of image
+    Eigen::Vector2i image_size;
+    image_size = cam.get_image_size();
+    int width = image_size(0);
+    int height = image_size(1);
+
+    // this defines the camera frame (and images on the image plane)
+    // TODO Rotate these vectors camera to inertial frame
+    Eigen::Vector3f cam_axis, right_axis, up_axis;
+    cam_axis = 20*cam.get_view_axis();
+    right_axis = cam.get_right_axis();
+    up_axis = cam.get_up_axis();
+
+    // data for the image RGB 
+    std::vector<Eigen::Vector3f, Eigen::aligned_allocator<Eigen::Vector3f> > framebuffer(width*height);
+    Eigen::Vector3f origin(0, 0, 0); 
+    #pragma omp parallel for
+    for (size_t jj = 0; jj < height; jj++) {
+        for (size_t ii = 0; ii < width; ii++) {
+
+            Eigen::Vector3f cam_vec;
+            int success = cam.get_ray((ii + 0.5) ,
+                                      (jj + 0.5),
+                                      cam_vec);
+            // define view direction
+            Eigen::Vector3f ray_vec = cam_axis + ((ii+0.5) - width/2) * right_axis + ((jj+0.5) - height/2) * up_axis;
+
+            framebuffer[ii+jj*width] = cast_ray(origin, ray_vec.normalized(), spheres);
+
+        }
+    }
+   
+
+
+    // save to file (need to loop through framebuffer and convert it to another 
+    // data array type for STB
+    std::uint8_t image[width * height * 3];
+
+    #pragma omp parallel for
+    for (size_t ii = 0; ii < width * height; ii++) {
+        image[ii * 3 + 0] = (int)(255 * framebuffer[ii]( 0 ));
+        image[ii * 3 + 1] = (int)(255 * framebuffer[ii]( 1 ));
+        image[ii * 3 + 2] = (int)(255 * framebuffer[ii]( 2 ));
+    }
+
+    stbi_write_jpg("out.jpg",width, height, 3, image, 95);
+
+}
 void render(const std::vector<Sphere>& spheres, 
         const std::vector<Light>& lights) {
 
