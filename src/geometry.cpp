@@ -216,6 +216,33 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     return color;
 }
 
+bool scene_intersection(const Eigen::Ref<const Eigen::Vector3f>& origin,
+        const Eigen::Ref<const Eigen::Vector3f>& direction,
+        const std::vector<Sphere>& spheres,
+        Eigen::Ref<Eigen::Vector3f> hit,
+        Eigen::Ref<Eigen::Vector3f> normal,
+        Material& material,
+        bool& background) {
+
+    float sphere_dist = std::numeric_limits<float>::max();
+    Eigen::Vector3f color;
+
+    for (size_t ii = 0; ii < spheres.size(); ii++) {
+        // need to find sphere with minimum distance and output that color
+        float dist_i; // gets modified inside function
+        if (spheres[ii].ray_intersect(origin, direction, dist_i) && dist_i < sphere_dist) {
+            sphere_dist = dist_i;
+            hit = origin + dist_i * direction;
+            normal = (hit - spheres[ii].get_center()).normalized();
+            color = spheres[ii].get_material().get_diffuse(); 
+            material = spheres[ii].get_material();
+            background = false;
+        }
+    }
+
+    return sphere_dist<1000;
+}
+
 Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref< const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres,
@@ -228,19 +255,21 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     Material material;
 
     Eigen::Vector3f hit, normal;
+    scene_intersection(orig, dir, spheres, hit, normal, material, background);
+
     // loop over each sphere and check if intersect
-    for (size_t ii = 0; ii < spheres.size(); ii++) {
-        // need to find sphere with minimum distance and output that color
-        float dist_i; // gets modified inside function
-        if (spheres[ii].ray_intersect(orig, dir, dist_i) && dist_i < sphere_dist) {
-            sphere_dist = dist_i;
-            hit = orig + dist_i * dir;
-            normal = (hit - spheres[ii].get_center()).normalized();
-            color = spheres[ii].get_material().get_diffuse(); 
-            material = spheres[ii].get_material();
-            background = false;
-        }
-    }
+    /* for (size_t ii = 0; ii < spheres.size(); ii++) { */
+    /*     // need to find sphere with minimum distance and output that color */
+    /*     float dist_i; // gets modified inside function */
+    /*     if (spheres[ii].ray_intersect(orig, dir, dist_i) && dist_i < sphere_dist) { */
+    /*         sphere_dist = dist_i; */
+    /*         hit = orig + dist_i * dir; */
+    /*         normal = (hit - spheres[ii].get_center()).normalized(); */
+    /*         color = spheres[ii].get_material().get_diffuse(); */ 
+    /*         material = spheres[ii].get_material(); */
+    /*         background = false; */
+    /*     } */
+    /* } */
     
     if (background) {
         return (Eigen::Vector3f() << 0.2, 0.7, 0.8).finished();
@@ -248,11 +277,29 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         // modify the color based on normal.dot(light) intensity
         // loop over lights and compute dot product
         Eigen::Vector3f light_dir;
+        float light_distance;
         float diffuse_light_intensity = 0;
         float specular_light_intensity = 0;
 
         for (size_t ii = 0; ii < lights.size(); ii++) {
             light_dir = (lights[ii].get_position() - hit).normalized();
+            light_distance = (lights[ii].get_position() - hit).norm();
+            /* Eigen::Vector3f shadow_orig = (float)light_dir.dot(normal) < 0 ? hit - normal*1e-3 : hit + normal*1e-3; // checking if the point lies in the shadow of the lights[i] */
+            Eigen::Vector3f shadow_origin;
+            if ((float)light_dir.dot(normal) < 0) {
+                shadow_origin = hit - normal * 1e-3;
+            } else {
+                shadow_origin = hit + normal * 1e-3;
+            }
+
+            Eigen::Vector3f shadow_pt, shadow_normal;
+            Material tmp_material;
+            bool tmp_background;
+            if (scene_intersection(shadow_origin, light_dir, spheres, shadow_pt, shadow_normal, tmp_material, tmp_background) &&
+                    (shadow_pt - shadow_origin).norm() < light_distance) {
+                continue;
+            }
+
             diffuse_light_intensity += lights[ii].get_itensity() * std::max(0.0f, (float)(light_dir.dot(normal)));
             specular_light_intensity += powf(std::max(0.0f, reflection(-light_dir, normal).dot(dir)), 
                                              material.get_specular_constant()) * lights[ii].get_itensity();

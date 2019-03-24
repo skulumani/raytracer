@@ -5,7 +5,7 @@
 int main() {
     // define a camera
     Camera cam;
-    cam.image_size(640, 480);
+    cam.image_size(500, 500);
 
     // define different materials
     Material ivory((Eigen::Vector2f() << 0.6, 0.3).finished(),
@@ -35,9 +35,9 @@ int main() {
 
     // lights   
     std::vector<Light> lights;
-    lights.push_back(Light((Eigen::Vector3f() << 20, -20, 15).finished(), 1.5));
-    lights.push_back(Light((Eigen::Vector3f() << -30, -50,  25).finished(), 0.7));
-    lights.push_back(Light((Eigen::Vector3f() << 0, 0,  5).finished(), 0.3));
+    lights.push_back(Light((Eigen::Vector3f() << 20, -20, 15).finished(), 0.7));
+    lights.push_back(Light((Eigen::Vector3f() << -30, -50,  25).finished(), 1.0));
+    lights.push_back(Light((Eigen::Vector3f() << -2, -5,  -1).finished(), 0.7));
     
     /* render(sphere); */
     /* render(cam, sphere); */

@@ -233,4 +233,12 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
 Eigen::Vector3f reflection(const Eigen::Ref<const Eigen::Vector3f>& light,
         const Eigen::Ref<const Eigen::Vector3f>& normal);
 
+bool scene_intersection(const Eigen::Ref<const Eigen::Vector3f>& origin,
+        const Eigen::Ref<const Eigen::Vector3f>& direction,
+        const std::vector<Sphere>& spheres,
+        Eigen::Ref<Eigen::Vector3f> hit,
+        Eigen::Ref<Eigen::Vector3f> normal,
+        Material& material,
+        bool& background);
+
 #endif
