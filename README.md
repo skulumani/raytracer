@@ -21,3 +21,7 @@ STB
 * Phong Reflection Model
 
     ![Phong](./docs/phong.jpg)
+
+* Shadows
+
+    ![Shadow](./docs/shadow.jpg)
