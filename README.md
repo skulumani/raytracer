@@ -24,7 +24,7 @@ STB
 
 * Shadows
 
-    ![Shadow](./docs/shadow.jpg)
+    ![Shadow](./docs/shadows.jpg)
 
 * Reflection
 
