@@ -41,7 +41,7 @@ Material::Material( void ) {
     ambient_color = diffuse_color;
     specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
-    albedo << 0.5, 0.5;
+    albedo << 0.5, 0.5, 0;
     specular_constant = 10;
 }
 
@@ -50,7 +50,7 @@ Material::Material(const Eigen::Ref<const Eigen::Vector3f>& color) {
     ambient_color = color;
     specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
-    albedo << 0.9, 0.1;
+    albedo << 0.9, 0.1, 0;
     specular_constant = 10;
 }
 
@@ -59,11 +59,11 @@ Material::Material(const float& r_in, const float& g_in, const float& b_in) {
     ambient_color = diffuse_color;
     specular_color = (Eigen::Vector3f() << 1, 1, 1).finished();
 
-    albedo << 0.6, 0.4;
+    albedo << 0.6, 0.4, 0;
     specular_constant = 50;
 }
 
-Material::Material(const Eigen::Ref<const Eigen::Vector2f>& albedo_in,
+Material::Material(const Eigen::Ref<const Eigen::Vector3f>& albedo_in,
         const Eigen::Ref<const Eigen::Vector3f>& color,
         const float& spec) {
     diffuse_color = color;
@@ -82,7 +82,7 @@ Eigen::Vector3f Material::get_specular( void ) {
     return this->specular_color;
 }
 
-Eigen::Vector2f Material::get_albedo( void ) {
+Eigen::Vector3f Material::get_albedo( void ) {
     return this->albedo;
 }
 

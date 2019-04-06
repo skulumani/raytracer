@@ -8,18 +8,21 @@ int main() {
     cam.image_size(500, 500);
 
     // define different materials
-    Material ivory((Eigen::Vector2f() << 0.6, 0.3).finished(),
+    Material ivory((Eigen::Vector3f() << 0.6, 0.3, 0).finished(),
             (Eigen::Vector3f() << 0.4, 0.4, 0.3).finished(),
             50);
-    Material red_rubber((Eigen::Vector2f() << 0.9, 0.1).finished(),
+    Material red_rubber((Eigen::Vector3f() << 0.9, 0.1, 0).finished(),
             (Eigen::Vector3f() << 0.3, 0.1, 0.1).finished(),
             20);
-    Material plywood((Eigen::Vector2f() << 0.9, 0.1).finished(),
+    Material plywood((Eigen::Vector3f() << 0.9, 0.1, 0).finished(),
             (Eigen::Vector3f() << 0.835, 0.796, 0.325).finished(),
             5);
-    Material teal((Eigen::Vector2f() << 0.8, 0.2).finished(), 
+    Material teal((Eigen::Vector3f() << 0.8, 0.2, 0).finished(), 
             (Eigen::Vector3f() << 0.325, 0.835, 0.796).finished(),
             20);
+    Material mirror((Eigen::Vector3f() << 0, 10, 0.8).finished(),
+            (Eigen::Vector3f() << 1, 1, 1).finished(),
+            1425);
 
     // define a sphere
     // positions are in the camera frame

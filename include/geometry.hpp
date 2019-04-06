@@ -172,7 +172,7 @@ struct Material {
     private:
         Eigen::Vector3f ambient_color, diffuse_color, specular_color;
         float specular_constant; // shininess of specular reflection
-        Eigen::Vector2f albedo; // ratio of diffuse to specular
+        Eigen::Vector3f albedo; // ratio of diffuse to specular
 
     public:
         Material( void );
@@ -180,13 +180,13 @@ struct Material {
 
         Material( const Eigen::Ref<const Eigen::Vector3f>& color);
         Material(const float& r_in, const float& g_in, const float& b_in);
-        Material(const Eigen::Ref<const Eigen::Vector2f>& albedo_in,
+        Material(const Eigen::Ref<const Eigen::Vector3f>& albedo_in,
                 const Eigen::Ref<const Eigen::Vector3f>& color,
                 const float& spec);
 
         Eigen::Vector3f get_diffuse( void );
         Eigen::Vector3f get_specular( void );
-        Eigen::Vector2f get_albedo( void );
+        Eigen::Vector3f get_albedo( void );
         float get_specular_constant( void );
 };
 
