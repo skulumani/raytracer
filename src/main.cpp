@@ -32,9 +32,9 @@ int main() {
 
     std::vector<Sphere> spheres;
     spheres.push_back(Sphere(-3,    0,   16, 2,      ivory));
-    spheres.push_back(Sphere(-1.0, -1.5, 12, 2, red_rubber));
-    spheres.push_back(Sphere( 1.5, -0.5, 18, 3, plywood));
-    spheres.push_back(Sphere( 7,    5,   18, 4,      teal));
+    spheres.push_back(Sphere(-1.0, -1.5, 12, 2, mirror));
+    spheres.push_back(Sphere( 1.5, -0.5, 18, 3, red_rubber));
+    spheres.push_back(Sphere( 7,    5,   18, 4,      mirror));
 
     // lights   
     std::vector<Light> lights;

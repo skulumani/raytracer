@@ -282,7 +282,14 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         float diffuse_light_intensity = 0;
         float specular_light_intensity = 0;
         
-        Eigen::Vector3f reflect_dir = reflection(dir, normal).normalized();
+        Eigen::Vector3f reflect_dir = reflection(-dir, normal).normalized();
+        Eigen::Vector3f reflect_origin;
+        if ((float)reflect_dir.dot(normal) < 0) {
+            reflect_origin = hit - normal * 1e-3;
+        } else {
+            reflect_origin = hit + normal * 1e-3;
+        }
+        Eigen::Vector3f reflect_color = cast_ray(reflect_origin, reflect_dir, spheres, lights, depth+1);
 
         for (size_t ii = 0; ii < lights.size(); ii++) {
             light_dir = (lights[ii].get_position() - hit).normalized();
@@ -309,7 +316,8 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         }
 
         return material.get_diffuse() * diffuse_light_intensity * material.get_albedo()(0) +
-            material.get_specular() * specular_light_intensity * material.get_albedo()(1);
+            material.get_specular() * specular_light_intensity * material.get_albedo()(1) +
+            reflect_color * material.get_albedo()(2);
     }
 }
 
