@@ -51,7 +51,7 @@ int main() {
     /* render(spheres, lights); */ 
     /* render(cam, spheres, lights); */
 
-    phong_render(cam, spheres, lights);
+    phong_render(cam, spheres, lights, 4);
 
     return 0;
 }

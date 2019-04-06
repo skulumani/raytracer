@@ -246,7 +246,8 @@ bool scene_intersection(const Eigen::Ref<const Eigen::Vector3f>& origin,
 Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref< const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres,
-        const std::vector<Light>& lights) {
+        const std::vector<Light>& lights,
+        const size_t depth) {
     bool background = true;
 
     // set maximum distance
@@ -271,7 +272,7 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
     /*     } */
     /* } */
     
-    if (background) {
+    if (depth>4 || background) {
         return (Eigen::Vector3f() << 0.2, 0.7, 0.8).finished();
     } else {
         // modify the color based on normal.dot(light) intensity
@@ -280,6 +281,8 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         float light_distance;
         float diffuse_light_intensity = 0;
         float specular_light_intensity = 0;
+        
+        Eigen::Vector3f reflect_dir = reflection(dir, normal).normalized();
 
         for (size_t ii = 0; ii < lights.size(); ii++) {
             light_dir = (lights[ii].get_position() - hit).normalized();

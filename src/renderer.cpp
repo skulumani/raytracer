@@ -303,9 +303,12 @@ void render(const Camera& cam,
 
 
 }
+
+
 void phong_render(const Camera& cam, 
         const std::vector<Sphere>& spheres, 
-        const std::vector<Light>& lights) {
+        const std::vector<Light>& lights,
+        const size_t depth) {
 
     // size of image
     Eigen::Vector2i image_size;
@@ -347,3 +350,4 @@ void phong_render(const Camera& cam,
 
 
 }
+

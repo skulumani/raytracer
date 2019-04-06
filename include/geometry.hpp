@@ -225,10 +225,16 @@ Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref<const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres);
 
+/* Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig, */
+/*         const Eigen::Ref<const Eigen::Vector3f>& dir, */
+/*         const std::vector<Sphere>& spheres, */
+/*         const std::vector<Light>& lights); */
+
 Eigen::Vector3f cast_ray(const Eigen::Ref<const Eigen::Vector3f>& orig,
         const Eigen::Ref<const Eigen::Vector3f>& dir,
         const std::vector<Sphere>& spheres,
-        const std::vector<Light>& lights);
+        const std::vector<Light>& lights,
+        const size_t depth=0);
 
 Eigen::Vector3f reflection(const Eigen::Ref<const Eigen::Vector3f>& light,
         const Eigen::Ref<const Eigen::Vector3f>& normal);

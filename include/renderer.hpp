@@ -26,7 +26,7 @@ void render( const Camera& cam, const std::vector<Sphere>& spheres, const std::v
 
 // multiple spheres and phong lighting model
 void phong_render(const Camera& cam, 
-        const std::vector<Sphere>& spheres, const std::vector<Light>& lights);
-
+        const std::vector<Sphere>& spheres, const std::vector<Light>& lights,
+        const size_t depth=0);
 
 #endif
